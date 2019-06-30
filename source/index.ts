@@ -1,18 +1,29 @@
-import inquirer from 'inquirer';
-import * as fs from 'fs';
-import { dirname } from 'path';
+import yargs from 'yargs';
+import dotenv from 'dotenv';
 
-const projects: Array<String> = ['express-server', 'react', 'vue'];
+dotenv.config();
 
-const questions: Array<Object> = [
-    {
-        name: 'project-choice',
-        type: 'list',
-        message: 'What project would you like to generate?',
-        choices: projects
-    }
-];
-
-inquirer.prompt(questions).then(answers => {
-    console.log(answers);
-});
+/**
+ * Parse Options command line
+ */
+yargs
+    .usage('Usage: generate <command> [Project Name]')
+    .scriptName('')
+    .commandDir('./Commands', {
+        extensions:
+            process.env.NODE_ENV === 'development' ? ['js', 'ts'] : ['js']
+    })
+    .example('run', 'Run commands automatically from prompt')
+    .example('run -p', 'Run commands from prompt')
+    .example('run -f src/commands.txt', 'Run instructions from a txt file')
+    .options({
+        help: {
+            alias: 'h',
+            describe: 'Get the help screen'
+        },
+        version: {
+            alias: 'v',
+            describe: 'Show version number'
+        }
+    })
+    .help().argv;
