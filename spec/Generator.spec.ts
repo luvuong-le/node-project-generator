@@ -1,20 +1,18 @@
-import Generator from './../source/Core/Generator';
+import Generator, { generatorPrompt } from './__mocks__/Generator';
 
-jest.mock('./../source/Core/Generator');
+jest.mock('./__mocks__/Generator');
 
 describe('Generator - Test User Input', () => {
-    const generator = new Generator();
-
     beforeAll(() => {
-        // Mock the prompt function
-        generator.prompt = jest
-            .fn()
-            .mockResolvedValue({ project: 'express-server' });
+        // Clear all instances and calls to constructor and all methods
+        Generator.mockClear();
+        generatorPrompt.mockClear();
     });
 
     it('should equal express server', async () => {
-        const res: any = await generator.prompt();
+        const res: any = await generatorPrompt();
 
         expect(res.project).toEqual('express-server');
+        expect(generatorPrompt).toHaveBeenCalledTimes(1);
     });
 });

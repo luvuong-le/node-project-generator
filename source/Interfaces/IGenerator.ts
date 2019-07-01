@@ -1,3 +1,10 @@
+import { QuestionContainer } from './../Types/Question';
+
 export interface IGenerator {
-    projects: string[];
+    questions: QuestionContainer;
+
+    getQuestions(): QuestionContainer;
+    generate(): void;
+    prompt(question: any): void;
+    run(): void;
 }

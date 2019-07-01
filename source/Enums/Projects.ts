@@ -1,7 +1,7 @@
 enum Projects {
-    Express = 'Express',
-    React = 'React',
-    Vue = 'Vue'
+    Express = 'express-server',
+    React = 'react-app',
+    Vue = 'vue-app'
 }
 
 export default Projects;

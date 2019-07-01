@@ -1,41 +1,43 @@
+import { QuestionContainer } from './../Types/Question';
+import { questions } from './Questions';
 import { IGenerator } from './../Interfaces/IGenerator';
-import Projects from '../Enums/Projects';
 import inquirer = require('inquirer');
-import { Question } from '../Types/Question';
 
 export default class Generator implements IGenerator {
-    projects: string[];
-    questions: any;
+    static instance: Generator;
+    questions: QuestionContainer;
 
     constructor() {
-        this.projects = this.getProjects();
         this.questions = this.getQuestions();
     }
 
-    getProjects(): string[] {
-        const projects: string[] = [];
+    getQuestions(): QuestionContainer {
+        return questions();
+    }
 
-        for (let project in Projects) {
-            projects.push(project);
+    generate(): void {}
+
+    prompt(question: any): Promise<unknown> {
+        return inquirer.prompt(question);
+    }
+
+    static Instance(): Generator {
+        if (Generator.instance == null) {
+            Generator.instance = new Generator();
         }
-
-        return projects;
+        return Generator.instance;
     }
 
-    getQuestions(): Question[] {
-        return this.questions;
+    static Configure(): void {
+        Generator.Instance();
     }
 
-    generate() {}
-
-    prompt() {
-        inquirer.prompt(this.questions).then(answers => {
-            console.log(answers);
-            return answers;
-        });
-    }
-
-    static run() {
+    async run() {
         console.log('Running Generator');
+        const res = await this.prompt(this.questions.Options);
+
+        console.log(res);
     }
 }
+
+export const generator: Generator = Generator.Instance();

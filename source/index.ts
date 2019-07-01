@@ -1,7 +1,9 @@
+import Generator from './Core/Generator';
 import yargs from 'yargs';
 import dotenv from 'dotenv';
 
 dotenv.config();
+Generator.Configure();
 
 /**
  * Parse Options command line
