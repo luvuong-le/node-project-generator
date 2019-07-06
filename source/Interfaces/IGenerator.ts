@@ -1,10 +1,12 @@
-import { QuestionContainer } from './../Types/Question';
+import { PromptResult } from '@modules/Types/PromptResult';
+import { QuestionContainer } from '@modules/Types/QuestionContainer';
+import { Question } from '@modules/Types/Question';
 
 export interface IGenerator {
     questions: QuestionContainer;
 
     getQuestions(): QuestionContainer;
-    generate(): void;
-    prompt(question: any): void;
+    generate(option: PromptResult, type: string): void;
+    prompt(question: Question[]): void;
     run(): void;
 }

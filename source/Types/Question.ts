@@ -4,8 +4,3 @@ export type Question = {
     message: string;
     choices: string[];
 };
-
-export type QuestionContainer = {
-    Options: Question[];
-    Projects: Question[];
-};

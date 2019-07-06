@@ -1,5 +1,5 @@
 import { Argv } from 'yargs';
-import { generator } from '../Core/Generator';
+import { generator } from '@modules/Core/Generator';
 
 export const command: string = '$0';
 

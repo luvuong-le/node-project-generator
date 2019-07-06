@@ -1,4 +1,5 @@
-import Generator from './Core/Generator';
+import 'module-alias/register';
+import Generator from '@modules/Core/Generator';
 import yargs from 'yargs';
 import dotenv from 'dotenv';
 
