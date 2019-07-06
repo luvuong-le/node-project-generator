@@ -1,4 +1,4 @@
-import Generator, { generatorPrompt } from './__mocks__/Generator';
+import Generator, { generatorPrompt } from './__mocks__/generator';
 
 jest.mock('./__mocks__/Generator');
 
