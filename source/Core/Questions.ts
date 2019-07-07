@@ -35,11 +35,21 @@ export const CodeQuestions: Question[] = [
     }
 ];
 
+// Project Name Question
+export const ProjectName: Question[] = [
+    {
+        name: 'option',
+        type: 'input',
+        message: 'Name of project'
+    }
+];
+
 // Main Container of Questions
-export const questions = (): QuestionContainer => {
+export const CombineQuestions = (): QuestionContainer => {
     return {
         Options: OptionQuestions,
         Projects: ProjectQuestions,
-        Code: CodeQuestions
+        Code: CodeQuestions,
+        ProjectName
     };
 };

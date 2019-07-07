@@ -6,7 +6,11 @@ export interface IGenerator {
     questions: QuestionContainer;
 
     getQuestions(): QuestionContainer;
-    generate(option: PromptResult, type: string): void;
+    generate(
+        option: PromptResult,
+        type: string,
+        projectName: PromptResult
+    ): void;
     prompt(question: Question[]): void;
     run(): void;
 }

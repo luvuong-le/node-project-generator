@@ -1,8 +1,8 @@
-export const generatorPrompt = jest
+export const generatorPrompt: jest.Mock = jest
     .fn()
-    .mockResolvedValue({ project: 'express-server' });
+    .mockResolvedValue({ option: 'express-server' });
 
-const generatorMock = jest.fn().mockImplementation(() => {
+const generatorMock: jest.Mock = jest.fn().mockImplementation(() => {
     return {
         prompt: generatorPrompt
     };
