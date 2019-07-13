@@ -6,7 +6,6 @@ import { Question } from '@modules/Types/Question';
 import Options from '@modules/Enums/Options';
 import inquirer = require('inquirer');
 import { Utility } from '@modules/Core/Utility';
-import { ConfigResult } from '@modules/Types/ConfigResult';
 
 export default class Generator implements IGenerator {
     static instance: Generator;
@@ -29,13 +28,13 @@ export default class Generator implements IGenerator {
      * @param  {Config} config
      * @returns void
      */
-    generate(action: PromptResult, type: Options, config: ConfigResult): void {
+    generate(actions: PromptResult, type: Options): void {
         switch (type) {
             case Options.Project:
-                Utility.generateProject(action, type, config);
+                Utility.generateProject(actions, type);
                 break;
             case Options.Code:
-                Utility.generateCode(action, type, config);
+                Utility.generateCode(actions, type);
                 break;
             default:
                 break;
@@ -44,9 +43,9 @@ export default class Generator implements IGenerator {
 
     /**
      * @param  {Question[]} question
-     * @returns Promise<>
+     * @returns Promise<PromptResult>
      */
-    prompt(question: Question[]): Promise<any> {
+    prompt(question: Question[]): Promise<PromptResult> {
         return inquirer.prompt(question as any);
     }
 
@@ -68,7 +67,7 @@ export default class Generator implements IGenerator {
     }
 
     /**
-     * @returns Promise
+     * @returns Promise<void>
      */
     async run(): Promise<void> {
         const generatorType: PromptResult = await this.prompt(
@@ -76,24 +75,19 @@ export default class Generator implements IGenerator {
         );
 
         if (generatorType.option === Options.Project) {
-            const projectToGenerate: PromptResult = await this.prompt(
+            const projectPromptResults: PromptResult = await this.prompt(
                 this.questions.Projects
             );
 
-            const config: ConfigResult = await this.prompt(
-                this.questions.ProjectConfig
-            );
-
-            this.generate(projectToGenerate, Options.Project, config);
+            this.generate(projectPromptResults, Options.Project);
         }
 
         if (generatorType.option === Options.Code) {
-            const codeToGenerate: PromptResult = await this.prompt(
+            const codePromptResults: PromptResult = await this.prompt(
                 this.questions.Code
             );
 
-            // TODO: Create Generate Function for Code Generation
-            this.generate(codeToGenerate, Options.Code, {});
+            this.generate(codePromptResults, Options.Code);
         }
     }
 }

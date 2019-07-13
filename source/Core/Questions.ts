@@ -22,15 +22,21 @@ export const ProjectQuestions: Question[] = [
         type: 'list',
         message: 'What project would you like to generate?',
         choices: Utility.getChoices(Projects)
-    }
-];
-
-// Project Config Questions
-export const ProjectConfig: Question[] = [
+    },
     {
         name: 'projectName',
         type: 'input',
         message: 'Name of project'
+    },
+    {
+        name: 'npmInstall',
+        type: 'confirm',
+        message: 'Run npm install?'
+    },
+    {
+        name: 'generate',
+        type: 'confirm',
+        message: 'Confirm generation of template'
     }
 ];
 
@@ -41,15 +47,21 @@ export const CodeQuestions: Question[] = [
         type: 'list',
         message: 'What would you like to generate?',
         choices: Utility.getChoices(Code)
-    }
-];
-
-// Code Config Questions
-export const CodeConfig: Question[] = [
+    },
     {
-        name: 'dummy',
+        name: 'fileName',
         type: 'input',
-        message: 'Test Question'
+        message: 'Filename'
+    },
+    {
+        name: 'codeGeneratePath',
+        type: 'input',
+        message: 'Enter a folder or path to generate'
+    },
+    {
+        name: 'generate',
+        type: 'confirm',
+        message: 'Confirm generation of template'
     }
 ];
 
@@ -58,8 +70,6 @@ export const CombineQuestions = (): QuestionContainer => {
     return {
         Options: OptionQuestions,
         Projects: ProjectQuestions,
-        ProjectConfig,
-        Code: CodeQuestions,
-        CodeConfig
+        Code: CodeQuestions
     };
 };
