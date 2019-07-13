@@ -1,4 +1,3 @@
-import { Utility } from '@modules/Core//Utility';
 import { QuestionContainer } from '@modules/Types/QuestionContainer';
 import { CombineQuestions } from '@modules/Core/Questions';
 import { IGenerator } from '@modules/Interfaces/IGenerator';
@@ -6,6 +5,8 @@ import { PromptResult } from '@modules/Types/PromptResult';
 import { Question } from '@modules/Types/Question';
 import Options from '@modules/Enums/Options';
 import inquirer = require('inquirer');
+import { Utility } from '@modules/Core/Utility';
+import { ConfigResult } from '@modules/Types/ConfigResult';
 
 export default class Generator implements IGenerator {
     static instance: Generator;
@@ -24,16 +25,17 @@ export default class Generator implements IGenerator {
 
     /**
      * @param  {PromptResult} action
-     * @param  {string} type
+     * @param  {Options} type
+     * @param  {Config} config
      * @returns void
      */
-    generate(action: PromptResult, type: string, config: PromptResult): void {
+    generate(action: PromptResult, type: Options, config: ConfigResult): void {
         switch (type) {
-            case 'Project':
+            case Options.Project:
                 Utility.generateProject(action, type, config);
                 break;
-            case 'Code':
-                Utility.generateCode(action, type);
+            case Options.Code:
+                Utility.generateCode(action, type, config);
                 break;
             default:
                 break;
@@ -42,9 +44,9 @@ export default class Generator implements IGenerator {
 
     /**
      * @param  {Question[]} question
-     * @returns Promise
+     * @returns Promise<>
      */
-    prompt(question: Question[]): Promise<PromptResult> {
+    prompt(question: Question[]): Promise<any> {
         return inquirer.prompt(question as any);
     }
 
@@ -78,11 +80,11 @@ export default class Generator implements IGenerator {
                 this.questions.Projects
             );
 
-            const projectName: PromptResult = await this.prompt(
-                this.questions.ProjectName
+            const config: ConfigResult = await this.prompt(
+                this.questions.ProjectConfig
             );
 
-            this.generate(projectToGenerate, Options.Project, projectName);
+            this.generate(projectToGenerate, Options.Project, config);
         }
 
         if (generatorType.option === Options.Code) {
@@ -91,7 +93,7 @@ export default class Generator implements IGenerator {
             );
 
             // TODO: Create Generate Function for Code Generation
-            // this.generate(codeToGenerate, Options.Code);
+            this.generate(codeToGenerate, Options.Code, {});
         }
     }
 }

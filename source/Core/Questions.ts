@@ -25,6 +25,15 @@ export const ProjectQuestions: Question[] = [
     }
 ];
 
+// Project Config Questions
+export const ProjectConfig: Question[] = [
+    {
+        name: 'projectName',
+        type: 'input',
+        message: 'Name of project'
+    }
+];
+
 // Code Questions
 export const CodeQuestions: Question[] = [
     {
@@ -35,12 +44,12 @@ export const CodeQuestions: Question[] = [
     }
 ];
 
-// Project Name Question
-export const ProjectName: Question[] = [
+// Code Config Questions
+export const CodeConfig: Question[] = [
     {
-        name: 'option',
+        name: 'dummy',
         type: 'input',
-        message: 'Name of project'
+        message: 'Test Question'
     }
 ];
 
@@ -49,7 +58,8 @@ export const CombineQuestions = (): QuestionContainer => {
     return {
         Options: OptionQuestions,
         Projects: ProjectQuestions,
+        ProjectConfig,
         Code: CodeQuestions,
-        ProjectName
+        CodeConfig
     };
 };

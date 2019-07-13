@@ -1,9 +1,12 @@
-import { PromptResult } from './../Types/PromptResult';
+import { ConfigResult } from '@modules/Types/ConfigResult';
+import { PromptResult } from '@modules/Types/PromptResult';
+import ShellCommands from '@modules/Enums/ShellCommands';
 import path from 'path';
 import shell from 'shelljs';
 import ora from 'ora';
 import chalk from 'chalk';
 import fs from 'fs-extra';
+import Options from '@modules/Enums/Options';
 
 export class Utility {
     /**
@@ -22,24 +25,34 @@ export class Utility {
 
     /**
      * @param  {PromptResult} action
-     * @param  {string} type
+     * @param  {Options} type
+     * @param  {ConfigResult} config
      * @returns void
      */
-    static generateCode(action: PromptResult, type: string): void {}
+    static generateCode(
+        action: PromptResult,
+        type: Options,
+        config: ConfigResult
+    ): void {
+        // TODO: Copy from template depending on type
+        // TODO: Copy to new location
+    }
 
     /**
      * @param  {PromptResult} action
-     * @param  {string} type
+     * @param  {Options} type
+     * @param  {ConfigResult} config
+     * @returns void
      */
     static generateProject(
         action: PromptResult,
-        type: string,
-        projectName: PromptResult
+        type: Options,
+        config: ConfigResult
     ): void {
         // Copy from template folder depending on the type and prompt result
         const currentDirectory: string = process.cwd();
         const newDirectory: string = `${currentDirectory}/${
-            projectName.option
+            config.projectName
         }`;
 
         // Create the new directory
@@ -65,10 +78,10 @@ export class Utility {
         // Change Directory and install npm
         shell.cd(newDirectory);
 
-        const spinner = ora('Running Package Install...\n').start();
+        const spinner: ora.Ora = ora('Running Package Install...\n').start();
 
         shell.exec(
-            'npm install',
+            ShellCommands.NPM_INSTALL,
             (code: number, stdout: string, stderr: string) => {
                 console.log('Exit code:', code);
                 console.log('Program output:', stdout);
