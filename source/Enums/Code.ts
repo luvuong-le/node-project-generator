@@ -1,4 +1,5 @@
 enum Code {
+    Controller = 'Controller',
     Route = 'Route'
 }
 

@@ -1,3 +1,3 @@
-class ControllerName {
+class {ControllerName} {
     constructor() {}
 }

@@ -1,9 +1,10 @@
 import { QuestionContainer } from '@modules/Types/QuestionContainer';
 import { Question } from '@modules/Types/Question';
-import { Utility } from '@modules/Core/Utility';
+import Utility from '@modules/Core/Utility';
 import Options from '@modules/Enums/Options';
 import Projects from '@modules/Enums/Projects';
 import Code from '@modules/Enums/Code';
+import chalk from 'chalk';
 
 // Main Question
 export const OptionQuestions: Question[] = [
@@ -26,7 +27,14 @@ export const ProjectQuestions: Question[] = [
     {
         name: 'projectName',
         type: 'input',
-        message: 'Name of project'
+        message: 'Name of project',
+        validate: (input: String) => {
+            if (input === '') {
+                console.log(chalk.red('\n[Error] Please enter a project name'));
+                return false;
+            }
+            return true;
+        }
     },
     {
         name: 'npmInstall',
@@ -51,7 +59,14 @@ export const CodeQuestions: Question[] = [
     {
         name: 'fileName',
         type: 'input',
-        message: 'Filename'
+        message: 'Filename',
+        validate: (input: String) => {
+            if (input === '') {
+                console.log(chalk.red('\n[Error] Please enter a filename'));
+                return false;
+            }
+            return true;
+        }
     },
     {
         name: 'codeGeneratePath',

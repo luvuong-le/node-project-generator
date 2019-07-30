@@ -1,12 +1,12 @@
 export type PromptResult = {
-    option: String;
-    generate: String;
+    option: string;
+    generate: string;
 
     // Project Configurations
-    projectName?: String;
-    npmInstall?: String;
+    projectName?: string;
+    npmInstall?: string;
 
     // Code Configurations
-    fileName?: String;
-    codeGeneratePath?: String;
+    fileName?: string;
+    codeGeneratePath?: string;
 };

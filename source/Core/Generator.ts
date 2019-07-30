@@ -5,7 +5,7 @@ import { PromptResult } from '@modules/Types/PromptResult';
 import { Question } from '@modules/Types/Question';
 import Options from '@modules/Enums/Options';
 import inquirer = require('inquirer');
-import { Utility } from '@modules/Core/Utility';
+import Utility from '@modules/Core/Utility';
 
 export default class Generator implements IGenerator {
     static instance: Generator;
@@ -46,7 +46,7 @@ export default class Generator implements IGenerator {
      * @returns Promise<PromptResult>
      */
     prompt(question: Question[]): Promise<PromptResult> {
-        return inquirer.prompt(question as any);
+        return inquirer.prompt(question as inquirer.Questions<PromptResult>);
     }
 
     /**
