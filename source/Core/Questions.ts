@@ -37,6 +37,11 @@ export const ProjectQuestions: Question[] = [
         }
     },
     {
+        name: 'gitInit',
+        type: 'confirm',
+        message: 'Initialize a git repo? (Git must be installed!)'
+    },
+    {
         name: 'npmInstall',
         type: 'confirm',
         message: 'Run npm install?'
