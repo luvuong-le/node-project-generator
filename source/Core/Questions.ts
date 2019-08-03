@@ -1,9 +1,11 @@
 import { QuestionContainer } from '@modules/Types/QuestionContainer';
 import { Question } from '@modules/Types/Question';
-import Utility from '@modules/Core/Utility';
+import Utility from '@modules/Core/GeneratorUtility';
 import Options from '@modules/Enums/Options';
 import Projects from '@modules/Enums/Projects';
 import Code from '@modules/Enums/Code';
+import LogHelper from '@modules/Helpers/LogHelper';
+
 import chalk from 'chalk';
 
 // Main Question
@@ -30,7 +32,10 @@ export const ProjectQuestions: Question[] = [
         message: 'Name of project',
         validate: (input: String) => {
             if (input === '') {
-                console.log(chalk.red('\n[Error] Please enter a project name'));
+                LogHelper.write(
+                    '\n[Error] Please enter a project name',
+                    chalk.red
+                );
                 return false;
             }
             return true;

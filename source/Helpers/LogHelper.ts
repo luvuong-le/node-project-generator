@@ -1,7 +1,14 @@
-import chalk, { Chalk } from 'chalk';
+import { Chalk } from 'chalk';
 
 export default class LogHelper {
-    static write(message: string, color: Chalk) {
-        console.log(color(message));
+    private constructor() {}
+
+    /**
+     * @param  {string} message
+     * @param  {Chalk} color
+     * @returns {void}
+     */
+    static write(message: string, color: Chalk): void {
+        return console.log(color(message));
     }
 }

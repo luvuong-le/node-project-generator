@@ -4,10 +4,10 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "start": "node dist/index.js",
-        "dev": "nodemon source/index.ts",
+        "start": "npm run build && node dist/index.js",
         "build": "tsc -p .",
-        "test": "jest --coverage"
+        "test": "jest --coverage",
+        "test:watch": "jest --coverage --watch --silent"
     },
     "keywords": [],
     "author": "Lu-Vuong Le <lu-vuongle@hotmail.com>",
@@ -33,12 +33,12 @@
         "fs-extra": "^8.1.0",
         "inquirer": "^6.3.1",
         "lodash": "^4.17.15",
-        "module-alias": "^2.2.0",
+        "module-alias": "^2.2.1",
         "ora": "^3.4.0",
         "shelljs": "^0.8.3",
         "yargs": "^13.2.4"
     },
     "_moduleAliases": {
-        "@modules": "dist"
+        "@modules": "./dist"
     }
 }

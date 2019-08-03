@@ -1,9 +1,11 @@
 import lodash from 'lodash';
 
 export default class StringHelper {
+    private constructor() {}
+
     /**
      * @param  {string} text
-     * @returns string
+     * @returns {string}
      */
     static uppercaseCamelCase(text: string): string {
         let camelCaseText: string = lodash.camelCase(text);

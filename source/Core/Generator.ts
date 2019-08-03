@@ -3,9 +3,12 @@ import { CombineQuestions } from '@modules/Core/Questions';
 import { IGenerator } from '@modules/Interfaces/IGenerator';
 import { PromptResult } from '@modules/Types/PromptResult';
 import { Question } from '@modules/Types/Question';
+import LogHelper from '@modules/Helpers/LogHelper';
 import Options from '@modules/Enums/Options';
+import GeneratorUtility from '@modules/Core/GeneratorUtility';
+
 import inquirer = require('inquirer');
-import Utility from '@modules/Core/Utility';
+import chalk from 'chalk';
 
 export default class Generator implements IGenerator {
     static instance: Generator;
@@ -16,34 +19,37 @@ export default class Generator implements IGenerator {
     }
 
     /**
-     * @returns QuestionContainer
+     * @returns {QuestionContainer}
      */
     getQuestions(): QuestionContainer {
         return CombineQuestions();
     }
 
     /**
-     * @param  {PromptResult} action
-     * @param  {Options} type
-     * @param  {Config} config
-     * @returns void
+     * @param  {PromptResult} promptResult
+     * @param  {Options} generatorType
+     * @returns {void}
      */
-    generate(actions: PromptResult, type: Options): void {
-        switch (type) {
+    generate(promptResult: PromptResult, generatorType: Options): void {
+        switch (generatorType) {
             case Options.Project:
-                Utility.generateProject(actions, type);
+                GeneratorUtility.generateProject(promptResult, generatorType);
                 break;
             case Options.Code:
-                Utility.generateCode(actions, type);
+                GeneratorUtility.generateCode(promptResult, generatorType);
                 break;
             default:
+                LogHelper.write(
+                    '[Error]: Not a valid type for generation',
+                    chalk.red
+                );
                 break;
         }
     }
 
     /**
      * @param  {Question[]} question
-     * @returns Promise<PromptResult>
+     * @returns {Promise<PromptResult>}
      */
     prompt(question: Question[]): Promise<PromptResult> {
         return inquirer.prompt(question as inquirer.Questions<PromptResult>);
@@ -60,14 +66,15 @@ export default class Generator implements IGenerator {
     }
 
     /**
-     * @returns void
+     * @description {Creates a new instance of generator class}
+     * @returns {Generator}
      */
-    static Configure(): void {
-        Generator.Instance();
+    static Configure(): Generator {
+        return Generator.Instance();
     }
 
     /**
-     * @returns Promise<void>
+     * @returns {Promise<void>}
      */
     async run(): Promise<void> {
         const generatorType: PromptResult = await this.prompt(
@@ -92,4 +99,4 @@ export default class Generator implements IGenerator {
     }
 }
 
-export const generator: Generator = Generator.Instance();
+export const generator: Generator = Generator.Configure();
