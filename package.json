@@ -6,7 +6,7 @@
     "scripts": {
         "start": "npm run build && node dist/index.js",
         "build": "tsc -p .",
-        "test": "jest --coverage",
+        "test": "jest --coverage --silent",
         "test:watch": "jest --coverage --watch --silent"
     },
     "keywords": [],
@@ -14,7 +14,9 @@
     "license": "MIT",
     "devDependencies": {
         "@types/jest": "^24.0.15",
+        "@types/mock-fs": "^3.6.30",
         "jest": "^24.8.0",
+        "mock-fs": "^4.10.1",
         "nodemon": "^1.19.1",
         "ts-jest": "^24.0.2",
         "ts-node": "^8.2.0",

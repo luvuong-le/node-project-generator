@@ -4,10 +4,7 @@ import {
 } from '@modules/Types/FileDetails';
 import { PromptResult } from '@modules/Types/PromptResult';
 import Options from '@modules/Enums/Options';
-import LogHelper from '@modules/Helpers/LogHelper';
 import FileHelper from '@modules/Helpers/FileHelper';
-
-import chalk from 'chalk';
 import fs from 'fs-extra';
 
 export default class GeneratorUtility {
@@ -30,37 +27,43 @@ export default class GeneratorUtility {
     /**
      * @param  {PromptResult} promptResults
      * @param  {Options} generatorType
-     * @returns {void}
+     * @returns {boolean}
      */
     static generateCode(
         promptResult: PromptResult,
         generatorType: Options
-    ): void {
-        const fileDetails: CodeFileDetails = FileHelper.getFileDetails(
-            promptResult,
-            generatorType
-        );
+    ): Promise<boolean> {
+        if (promptResult.generate) {
+            const fileDetails: CodeFileDetails = FileHelper.getFileDetails(
+                promptResult,
+                generatorType
+            );
 
-        // Generate custom folder if there is none
-        if (promptResult.codeGeneratePath) {
-            if (!fs.existsSync(fileDetails.codeFolderToGenerate)) {
-                fs.mkdirSync(fileDetails.codeFolderToGenerate);
+            // Generate custom folder if there is none
+            if (promptResult.codeGeneratePath) {
+                if (!fs.existsSync(fileDetails.codeFolderToGenerate)) {
+                    fs.mkdirSync(fileDetails.codeFolderToGenerate);
+                }
             }
+
+            // Generate the file
+            return FileHelper.generateFile(fileDetails, promptResult);
         }
 
-        // Generate the file
-        FileHelper.generateFile(fileDetails, promptResult);
+        return new Promise((resolve, reject) => {
+            reject(false);
+        });
     }
 
     /**
      * @param  {PromptResult} promptResult
      * @param  {Options} generatorType
-     * @returns {void}
+     * @returns {boolean}
      */
     static generateProject(
         promptResult: PromptResult,
         generatorType: Options
-    ): void {
+    ): Promise<boolean> {
         if (promptResult.generate) {
             // Copy from template folder depending on the type and prompt result
             const projectDetails: ProjectFileDetails = FileHelper.getProjectDetails(
@@ -72,8 +75,10 @@ export default class GeneratorUtility {
             fs.mkdirSync(projectDetails.newDirectory);
 
             // Run the generation of the project
-            FileHelper.generateProject(promptResult, projectDetails);
+            return FileHelper.generateProject(promptResult, projectDetails);
         }
-        LogHelper.write('\n[Info]: Exiting generator', chalk.blue);
+        return new Promise((resolve, reject) => {
+            reject(false);
+        });
     }
 }

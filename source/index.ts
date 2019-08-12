@@ -4,21 +4,27 @@ import yargs from 'yargs';
 import dotenv from 'dotenv';
 
 dotenv.config();
-Generator.Configure();
 
 /**
  * Parse Options command line
  */
-yargs
-    .usage('Usage: generate <command> [Project Name]')
-    .scriptName('')
+const argv: yargs.Arguments = yargs
+    .usage('Usage: generate <command> [Options]')
+    // .scriptName('')
     .commandDir('./Commands', {
         extensions:
             process.env.NODE_ENV === 'development' ? ['js', 'ts'] : ['js']
     })
-    .example('run', 'Run commands automatically from prompt')
-    .example('run -p', 'Run commands from prompt')
-    .example('run -f src/commands.txt', 'Run instructions from a txt file')
+
+    .example(
+        '$0 -g project -t react',
+        'Run generator to generate a react project'
+    )
+    .example(
+        '$0 -g code -t controller',
+        'Run generator to generate controller file'
+    )
+    .example('$0 -l', 'List a tree of all possible generation options')
     .options({
         help: {
             alias: 'h',
@@ -27,6 +33,15 @@ yargs
         version: {
             alias: 'v',
             describe: 'Show version number'
+        },
+        generate: {
+            alias: 'g',
+            describe: 'Generate a file or project'
+        },
+        type: {
+            alias: 't',
+            describe: 'Describe file or project to generate'
         }
-    })
-    .help().argv;
+    }).argv;
+
+Generator.Configure(argv);

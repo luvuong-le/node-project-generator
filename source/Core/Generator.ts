@@ -9,6 +9,7 @@ import GeneratorUtility from '@modules/Core/GeneratorUtility';
 
 import inquirer = require('inquirer');
 import chalk from 'chalk';
+import yargs = require('yargs');
 
 export default class Generator implements IGenerator {
     static instance: Generator;
@@ -28,22 +29,29 @@ export default class Generator implements IGenerator {
     /**
      * @param  {PromptResult} promptResult
      * @param  {Options} generatorType
-     * @returns {void}
+     * @returns {boolean}
      */
-    generate(promptResult: PromptResult, generatorType: Options): void {
+    async generate(
+        promptResult: PromptResult,
+        generatorType: Options
+    ): Promise<boolean> {
         switch (generatorType) {
             case Options.Project:
-                GeneratorUtility.generateProject(promptResult, generatorType);
-                break;
+                return GeneratorUtility.generateProject(
+                    promptResult,
+                    generatorType
+                );
             case Options.Code:
-                GeneratorUtility.generateCode(promptResult, generatorType);
-                break;
+                return GeneratorUtility.generateCode(
+                    promptResult,
+                    generatorType
+                );
             default:
                 LogHelper.write(
                     '[Error]: Not a valid type for generation',
                     chalk.red
                 );
-                break;
+                return false;
         }
     }
 
@@ -69,7 +77,7 @@ export default class Generator implements IGenerator {
      * @description {Creates a new instance of generator class}
      * @returns {Generator}
      */
-    static Configure(): Generator {
+    static Configure(_arguments: yargs.Arguments): Generator {
         return Generator.Instance();
     }
 
@@ -81,12 +89,17 @@ export default class Generator implements IGenerator {
             this.questions.Options
         );
 
+        let generationResult: boolean = false;
+
         if (generatorType.option === Options.Project) {
             const projectPromptResults: PromptResult = await this.prompt(
                 this.questions.Projects
             );
 
-            this.generate(projectPromptResults, Options.Project);
+            generationResult = await this.generate(
+                projectPromptResults,
+                Options.Project
+            );
         }
 
         if (generatorType.option === Options.Code) {
@@ -94,9 +107,18 @@ export default class Generator implements IGenerator {
                 this.questions.Code
             );
 
-            this.generate(codePromptResults, Options.Code);
+            generationResult = await this.generate(
+                codePromptResults,
+                Options.Code
+            );
         }
+
+        if (generationResult === false) {
+            return this.run();
+        }
+
+        LogHelper.write('\n[Info]: Exiting generator', chalk.blue);
     }
 }
 
-export const generator: Generator = Generator.Configure();
+export const generator: Generator = Generator.Instance();

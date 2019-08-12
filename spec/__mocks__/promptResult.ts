@@ -6,9 +6,10 @@ export const PromptResultMock: jest.Mock<
     option: 'react',
     generate: 'y',
     projectName: 'test',
-    npmInstall: 'n',
-    gitInit: 'n',
-    codeGeneratePath: 'testDir'
+    npmInstall: 'y',
+    gitInit: 'y',
+    codeGeneratePath: 'testDir',
+    fileName: 'test'
 });
 
 export default PromptResultMock;
