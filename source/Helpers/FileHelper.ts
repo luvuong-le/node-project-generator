@@ -1,9 +1,9 @@
+import { PromptResult } from './../Types/PromptResult';
 import LogHelper from '@modules/Helpers/LogHelper';
 import {
     CodeFileDetails,
     ProjectFileDetails
 } from '@modules/Types/FileDetails';
-import { PromptResult } from '@modules/Types/PromptResult';
 import Options from '@modules/Enums/Options';
 import ShellCommands from '@modules/Enums/ShellCommands';
 import StringHelper from '@modules/Helpers/StringHelper';
@@ -53,7 +53,7 @@ export default abstract class FileHelper extends BaseFileHelper {
                     }
                     /* istanbul ignore next */
                     LogHelper.write(
-                        `\n[Success] Generated ${fileDetails.fileType}\n`,
+                        `\n[Success]: Generated ${fileDetails.fileType}\n`,
                         chalk.green
                     );
                 } catch (err) {
@@ -88,6 +88,7 @@ export default abstract class FileHelper extends BaseFileHelper {
                 if (promptResult.gitInit) {
                     shell.exec(
                         ShellCommands.GIT_INIT,
+                        /* istanbul ignore next */
                         (code: number, stdout: string, stderr: Error) => {
                             /* istanbul ignore next */
                             if (stderr)
@@ -103,6 +104,12 @@ export default abstract class FileHelper extends BaseFileHelper {
                                 chalk.green
                             );
                         }
+                    );
+                } else {
+                    /* istanbul ignore next */
+                    LogHelper.write(
+                        '\n[Info]: Not Running Git Init',
+                        chalk.blue
                     );
                 }
 
@@ -143,7 +150,10 @@ export default abstract class FileHelper extends BaseFileHelper {
                     );
                 }
 
-                LogHelper.write(`\n[Success] Generated Project\n`, chalk.green);
+                LogHelper.write(
+                    `\n[Success]: Generated Project\n`,
+                    chalk.green
+                );
                 return true;
             })
             .catch((err: Error) => {
@@ -211,9 +221,18 @@ export default abstract class FileHelper extends BaseFileHelper {
         generatorType: Options
     ): ProjectFileDetails {
         const currentDirectory: string = process.cwd();
-        const newDirectory: string = `${currentDirectory}/${
-            promptResult.projectName
-        }`;
+
+        let newDirectory = '';
+
+        if (promptResult.projectGeneratePath) {
+            newDirectory = path.resolve(
+                currentDirectory,
+                promptResult.projectGeneratePath || '',
+                `${promptResult.projectName}` || ''
+            );
+        } else {
+            newDirectory = `${currentDirectory}/${promptResult.projectName}`;
+        }
 
         const directoryToCopy: string = path.resolve(
             __dirname,
@@ -225,7 +244,8 @@ export default abstract class FileHelper extends BaseFileHelper {
         return {
             currentDirectory,
             newDirectory,
-            directoryToCopy
+            directoryToCopy,
+            projectFolderToGenerate: promptResult.projectGeneratePath || ''
         };
     }
 
@@ -280,6 +300,7 @@ export default abstract class FileHelper extends BaseFileHelper {
 
             files.forEach((file: string) => {
                 if (fileType === file) {
+                    /* istanbul ignore next */
                     return file;
                 }
             });

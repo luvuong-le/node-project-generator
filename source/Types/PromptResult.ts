@@ -4,8 +4,9 @@ export type PromptResult = {
 
     // Project Configurations
     projectName?: string;
-    npmInstall?: string;
+    projectGeneratePath?: string;
     gitInit?: string;
+    npmInstall?: string;
 
     // Code Configurations
     fileName?: string;

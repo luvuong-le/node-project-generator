@@ -93,7 +93,8 @@ describe('File Helper Tests', () => {
         const projectDetails: ProjectFileDetails = {
             currentDirectory: process.cwd(),
             newDirectory: `fake/${promptResult.projectName}`,
-            directoryToCopy: 'templates/project/express'
+            directoryToCopy: 'templates/project/express',
+            projectFolderToGenerate: ''
         };
 
         const result = await FileHelper.generateProject(
@@ -110,7 +111,8 @@ describe('File Helper Tests', () => {
         const projectDetails: ProjectFileDetails = {
             currentDirectory: process.cwd(),
             newDirectory: '',
-            directoryToCopy: ''
+            directoryToCopy: '',
+            projectFolderToGenerate: ''
         };
 
         const result = await FileHelper.generateProject(
@@ -137,7 +139,12 @@ describe('File Helper Tests', () => {
                 Options.Project.toLowerCase(),
                 promptResult.option.toLowerCase()
             ),
-            newDirectory: `${process.cwd()}/${promptResult.projectName}`
+            newDirectory: path.resolve(
+                process.cwd(),
+                projectDetails.projectFolderToGenerate || '',
+                promptResult.projectName || ''
+            ),
+            projectFolderToGenerate: 'testDir'
         });
     });
 

@@ -117,7 +117,7 @@ export default class Generator implements IGenerator {
             return this.run();
         }
 
-        LogHelper.write('\n[Info]: Exiting generator', chalk.blue);
+        LogHelper.write('[Info]: Exiting generator', chalk.blue);
     }
 }
 

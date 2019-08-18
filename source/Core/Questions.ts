@@ -42,6 +42,11 @@ export const ProjectQuestions: Question[] = [
         }
     },
     {
+        name: 'projectGeneratePath',
+        type: 'input',
+        message: 'Enter a folder or path to generate'
+    },
+    {
         name: 'gitInit',
         type: 'confirm',
         message: 'Initialize a git repo? (Git must be installed!)'

@@ -11,4 +11,5 @@ export type ProjectFileDetails = {
     currentDirectory: string;
     newDirectory: string;
     directoryToCopy: string;
+    projectFolderToGenerate: string;
 };

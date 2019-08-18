@@ -42,7 +42,9 @@ export default class GeneratorUtility {
             // Generate custom folder if there is none
             if (promptResult.codeGeneratePath) {
                 if (!fs.existsSync(fileDetails.codeFolderToGenerate)) {
-                    fs.mkdirSync(fileDetails.codeFolderToGenerate);
+                    fs.mkdirSync(fileDetails.codeFolderToGenerate, {
+                        recursive: true
+                    });
                 }
             }
 
@@ -71,8 +73,14 @@ export default class GeneratorUtility {
                 generatorType
             );
 
-            // Create the new directory
-            fs.mkdirSync(projectDetails.newDirectory);
+            // Generate custom folder if there is none
+            if (promptResult.projectGeneratePath) {
+                if (!fs.existsSync(projectDetails.newDirectory)) {
+                    fs.mkdirSync(projectDetails.newDirectory, {
+                        recursive: true
+                    });
+                }
+            }
 
             // Run the generation of the project
             return FileHelper.generateProject(promptResult, projectDetails);
