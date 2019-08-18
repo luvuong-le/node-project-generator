@@ -1,3 +1,4 @@
+import { CommandPromptResult } from './../Types/CommandPromptResult';
 import { QuestionContainer } from '@modules/Types/QuestionContainer';
 import { CombineQuestions } from '@modules/Core/Questions';
 import { IGenerator } from '@modules/Interfaces/IGenerator';
@@ -9,7 +10,7 @@ import GeneratorUtility from '@modules/Core/GeneratorUtility';
 
 import inquirer = require('inquirer');
 import chalk from 'chalk';
-import yargs = require('yargs');
+import { Argv } from 'yargs';
 
 export default class Generator implements IGenerator {
     static instance: Generator;
@@ -77,8 +78,50 @@ export default class Generator implements IGenerator {
      * @description {Creates a new instance of generator class}
      * @returns {Generator}
      */
-    static Configure(_arguments: yargs.Arguments): Generator {
+    static Configure(): Generator {
         return Generator.Instance();
+    }
+
+    async runViaCommand(_arguments: CommandPromptResult): Promise<void> {
+        console.log(_arguments);
+
+        switch (_arguments.command[0]) {
+            case 'new':
+                if (
+                    _arguments.generatorType === Options.Project.toLowerCase()
+                ) {
+                    await this.generate(
+                        {
+                            option: _arguments.specifiedToGenerate,
+                            generate: true,
+                            projectName: _arguments.name || '',
+                            projectGeneratePath: _arguments.path || '',
+                            gitInit: _arguments.gitInit || false,
+                            npmInstall: _arguments.npmInit || false
+                        },
+                        Options.Project
+                    );
+                }
+
+                if (_arguments.generatorType === Options.Code.toLowerCase()) {
+                    await this.generate(
+                        {
+                            option: _arguments.specifiedToGenerate,
+                            generate: true,
+                            fileName: _arguments.name || '',
+                            projectGeneratePath: _arguments.path || ''
+                        },
+                        Options.Code
+                    );
+                }
+
+                break;
+            case 'list':
+                // Console log a list of projects to user here || Tree heirarchy
+                break;
+            default:
+                LogHelper.write('[Error]: Unknown Command', chalk.red);
+        }
     }
 
     /**
@@ -91,33 +134,39 @@ export default class Generator implements IGenerator {
 
         let generationResult: boolean = false;
 
-        if (generatorType.option === Options.Project) {
-            const projectPromptResults: PromptResult = await this.prompt(
-                this.questions.Projects
-            );
+        try {
+            if (generatorType.option === Options.Project) {
+                const projectPromptResults: PromptResult = await this.prompt(
+                    this.questions.Projects
+                );
 
-            generationResult = await this.generate(
-                projectPromptResults,
-                Options.Project
+                generationResult = await this.generate(
+                    projectPromptResults,
+                    Options.Project
+                );
+            }
+
+            if (generatorType.option === Options.Code) {
+                const codePromptResults: PromptResult = await this.prompt(
+                    this.questions.Code
+                );
+
+                generationResult = await this.generate(
+                    codePromptResults,
+                    Options.Code
+                );
+            }
+        } catch (e) {
+            LogHelper.write(
+                '[Info]: Not Generating Project... Exiting Application',
+                chalk.blue
             );
+            process.exit(0);
         }
 
-        if (generatorType.option === Options.Code) {
-            const codePromptResults: PromptResult = await this.prompt(
-                this.questions.Code
-            );
-
-            generationResult = await this.generate(
-                codePromptResults,
-                Options.Code
-            );
-        }
-
-        if (generationResult === false) {
-            return this.run();
-        }
-
-        LogHelper.write('[Info]: Exiting generator', chalk.blue);
+        // if (generationResult === false) {
+        //     return this.run();
+        // }
     }
 }
 

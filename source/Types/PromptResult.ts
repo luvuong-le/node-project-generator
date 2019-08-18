@@ -1,12 +1,12 @@
 export type PromptResult = {
     option: string;
-    generate: string;
+    generate: boolean;
 
     // Project Configurations
     projectName?: string;
     projectGeneratePath?: string;
-    gitInit?: string;
-    npmInstall?: string;
+    gitInit?: boolean;
+    npmInstall?: boolean;
 
     // Code Configurations
     fileName?: string;

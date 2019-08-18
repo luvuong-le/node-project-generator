@@ -4,10 +4,10 @@ export const PromptResultMock: jest.Mock<
     PromptResult
 > = jest.fn().mockResolvedValue({
     option: 'react',
-    generate: 'y',
+    generate: true,
     projectName: 'test',
-    npmInstall: 'y',
-    gitInit: 'y',
+    npmInstall: true,
+    gitInit: true,
     codeGeneratePath: 'testDir',
     projectGeneratePath: 'testDir',
     fileName: 'test'

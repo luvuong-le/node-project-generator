@@ -118,7 +118,7 @@ export default abstract class FileHelper extends BaseFileHelper {
                     shell.cd(projectDetails.newDirectory);
 
                     const spinner: ora.Ora = ora(
-                        '\nRunning Package Install...\n'
+                        chalk.green('\nRunning Package Install...\n')
                     ).start();
 
                     shell.exec(
@@ -137,7 +137,7 @@ export default abstract class FileHelper extends BaseFileHelper {
                             spinner.stop();
 
                             LogHelper.write(
-                                'Package Install Run Successfully',
+                                '[Success]: Package Install Run Successfully',
                                 chalk.green
                             );
                         }
@@ -154,6 +154,7 @@ export default abstract class FileHelper extends BaseFileHelper {
                     `\n[Success]: Generated Project\n`,
                     chalk.green
                 );
+
                 return true;
             })
             .catch((err: Error) => {

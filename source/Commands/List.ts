@@ -1,11 +1,11 @@
 import { Argv } from 'yargs';
 
-export const command: string = 'list';
+export const command: string = 'list <generatorType>';
 
-export const aliases: string[] = ['l'];
+export const aliases: string[] = ['ls'];
 
 export const describe: string = 'List all available projects';
 
 export const builder: object = {};
 
-export const handler = (argv: Argv) => console.log(argv);
+export const handler = (argv: Argv) => {};
