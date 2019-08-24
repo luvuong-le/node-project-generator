@@ -1,13 +1,14 @@
 {
     "name": "node-project-generator",
     "version": "1.0.0",
-    "description": "Project Generator Created for convenient use",
+    "description": "Project Generator created for convenient use",
     "main": "index.js",
+    "bin": {
+        "generate": "dist/index.js",
+        "gen": "dist/index.js"
+    },
     "scripts": {
         "start": "npm run build && node dist/index.js",
-        "start:project": "npm run build && node dist/index.js new project express --name ExpressProject -p express/test --ni --ginit",
-        "start:code": "npm run build && node dist/index.js new code Controller --name TestController -p ./test/",
-        "start:help": "npm run build && node dist/index.js -h",
         "build": "tsc -p .",
         "test": "jest --coverage --silent",
         "test:watch": "jest --coverage --watch --silent"

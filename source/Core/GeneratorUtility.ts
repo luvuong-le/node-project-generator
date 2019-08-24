@@ -11,6 +11,7 @@ export default class GeneratorUtility {
     private constructor() {}
 
     /**
+     * Get the choices from the Options/Project/Code Enumerations
      * @param  {any} generatorType
      * @returns {string[]}
      */
@@ -25,6 +26,7 @@ export default class GeneratorUtility {
     }
 
     /**
+     * Performs the generation of the code and returns a result
      * @param  {PromptResult} promptResults
      * @param  {Options} generatorType
      * @returns {boolean}
@@ -41,6 +43,7 @@ export default class GeneratorUtility {
 
             // Generate custom folder if there is none
             if (promptResult.codeGeneratePath) {
+                console.log('generating folder');
                 if (!fs.existsSync(fileDetails.codeFolderToGenerate)) {
                     fs.mkdirSync(fileDetails.codeFolderToGenerate, {
                         recursive: true
@@ -58,6 +61,7 @@ export default class GeneratorUtility {
     }
 
     /**
+     * Performs the generation of the project and returns a result
      * @param  {PromptResult} promptResult
      * @param  {Options} generatorType
      * @returns {boolean}

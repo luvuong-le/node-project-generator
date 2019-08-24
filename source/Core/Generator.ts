@@ -6,11 +6,13 @@ import { PromptResult } from '@modules/Types/PromptResult';
 import { Question } from '@modules/Types/Question';
 import LogHelper from '@modules/Helpers/LogHelper';
 import Options from '@modules/Enums/Options';
+import Code from '@modules/Enums/Code';
+import Projects from '@modules/Enums/Projects';
 import GeneratorUtility from '@modules/Core/GeneratorUtility';
 
 import inquirer = require('inquirer');
 import chalk from 'chalk';
-import { Argv } from 'yargs';
+import _ from 'lodash';
 
 export default class Generator implements IGenerator {
     static instance: Generator;
@@ -21,6 +23,7 @@ export default class Generator implements IGenerator {
     }
 
     /**
+     * Returns all the questions to ask the user
      * @returns {QuestionContainer}
      */
     getQuestions(): QuestionContainer {
@@ -28,6 +31,7 @@ export default class Generator implements IGenerator {
     }
 
     /**
+     * Begins the generation of the project/code
      * @param  {PromptResult} promptResult
      * @param  {Options} generatorType
      * @returns {boolean}
@@ -57,6 +61,26 @@ export default class Generator implements IGenerator {
     }
 
     /**
+     * Logs out all possible options depending on user choice [Project | Code]
+     * @param  {string} generatorType
+     * @returns void
+     */
+    generateList(generatorType: string): void {
+        if (generatorType.toLowerCase() === Options.Project.toLowerCase()) {
+            LogHelper.write('Listing all projects: ', chalk.blue);
+            for (let option in Projects) {
+                LogHelper.write(`    -${_.capitalize(option)}`, chalk.blue);
+            }
+        } else {
+            LogHelper.write('Listing all code files: ', chalk.blue);
+            for (let option in Code) {
+                LogHelper.write(`    -${_.capitalize(option)}`, chalk.blue);
+            }
+        }
+    }
+
+    /**
+     * Prompts the user based on a list of questions
      * @param  {Question[]} question
      * @returns {Promise<PromptResult>}
      */
@@ -65,6 +89,7 @@ export default class Generator implements IGenerator {
     }
 
     /**
+     * Returns an instance of the generator
      * @returns Generator
      */
     static Instance(): Generator {
@@ -75,6 +100,7 @@ export default class Generator implements IGenerator {
     }
 
     /**
+     * Creates a new instance of the generator class
      * @description {Creates a new instance of generator class}
      * @returns {Generator}
      */
@@ -82,13 +108,17 @@ export default class Generator implements IGenerator {
         return Generator.Instance();
     }
 
+    /**
+     * Runs the generator based on the cli arguments
+     * @param  {CommandPromptResult} _arguments
+     * @returns Promise
+     */
     async runViaCommand(_arguments: CommandPromptResult): Promise<void> {
-        console.log(_arguments);
-
         switch (_arguments.command[0]) {
             case 'new':
                 if (
-                    _arguments.generatorType === Options.Project.toLowerCase()
+                    _arguments.generatorType.toLowerCase() ===
+                    Options.Project.toLowerCase()
                 ) {
                     await this.generate(
                         {
@@ -103,13 +133,16 @@ export default class Generator implements IGenerator {
                     );
                 }
 
-                if (_arguments.generatorType === Options.Code.toLowerCase()) {
+                if (
+                    _arguments.generatorType.toLowerCase() ===
+                    Options.Code.toLowerCase()
+                ) {
                     await this.generate(
                         {
                             option: _arguments.specifiedToGenerate,
                             generate: true,
                             fileName: _arguments.name || '',
-                            projectGeneratePath: _arguments.path || ''
+                            codeGeneratePath: _arguments.path || ''
                         },
                         Options.Code
                     );
@@ -117,7 +150,7 @@ export default class Generator implements IGenerator {
 
                 break;
             case 'list':
-                // Console log a list of projects to user here || Tree heirarchy
+                this.generateList(_arguments.generatorType);
                 break;
             default:
                 LogHelper.write('[Error]: Unknown Command', chalk.red);
@@ -125,6 +158,19 @@ export default class Generator implements IGenerator {
     }
 
     /**
+     * Terminates the application
+     * @returns void
+     */
+    terminate(): void {
+        LogHelper.write(
+            '[Info]: Not Generating Project... Exiting Application',
+            chalk.blue
+        );
+        process.exit(0);
+    }
+
+    /**
+     * Runs the generator in user input mode
      * @returns {Promise<void>}
      */
     async run(): Promise<void> {
@@ -132,18 +178,13 @@ export default class Generator implements IGenerator {
             this.questions.Options
         );
 
-        let generationResult: boolean = false;
-
         try {
             if (generatorType.option === Options.Project) {
                 const projectPromptResults: PromptResult = await this.prompt(
                     this.questions.Projects
                 );
 
-                generationResult = await this.generate(
-                    projectPromptResults,
-                    Options.Project
-                );
+                await this.generate(projectPromptResults, Options.Project);
             }
 
             if (generatorType.option === Options.Code) {
@@ -151,22 +192,15 @@ export default class Generator implements IGenerator {
                     this.questions.Code
                 );
 
-                generationResult = await this.generate(
-                    codePromptResults,
-                    Options.Code
-                );
+                await this.generate(codePromptResults, Options.Code);
+            }
+
+            if (generatorType.option === Options.Exit) {
+                return this.terminate();
             }
         } catch (e) {
-            LogHelper.write(
-                '[Info]: Not Generating Project... Exiting Application',
-                chalk.blue
-            );
-            process.exit(0);
+            return this.terminate();
         }
-
-        // if (generationResult === false) {
-        //     return this.run();
-        // }
     }
 }
 

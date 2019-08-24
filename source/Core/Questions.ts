@@ -8,7 +8,6 @@ import LogHelper from '@modules/Helpers/LogHelper';
 
 import chalk from 'chalk';
 
-// Main Question
 export const OptionQuestions: Question[] = [
     {
         name: 'option',
@@ -18,7 +17,6 @@ export const OptionQuestions: Question[] = [
     }
 ];
 
-// Project Questions
 export const ProjectQuestions: Question[] = [
     {
         name: 'option',
@@ -63,7 +61,6 @@ export const ProjectQuestions: Question[] = [
     }
 ];
 
-// Code Questions
 export const CodeQuestions: Question[] = [
     {
         name: 'option',

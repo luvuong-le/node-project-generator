@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import 'module-alias/register';
 import Generator from '@modules/Core/Generator';
 import yargs from 'yargs';
@@ -11,20 +13,21 @@ Generator.Configure();
  */
 const argv: any = yargs
     .usage('Usage: generate <command> [Options]')
-    // .scriptName('')
+    .usage('Usage: gen <command> [Options]')
+    .scriptName('')
     .commandDir('./Commands', {
         extensions:
             process.env.NODE_ENV === 'development' ? ['js', 'ts'] : ['js']
     })
     .example(
-        '$0 -g project -t react',
-        'Run generator to generate a react project'
+        'Gen new project ExpressProject --name express',
+        'Run generator to generate a express project'
     )
     .example(
-        '$0 -g code -t controller',
-        'Run generator to generate controller file'
+        'Generate new code Controller --name TestController',
+        'Run generator to generate test controller file'
     )
-    .example('$0 -l', 'List a tree of all possible generation options')
+    .example('gen list', 'List a tree of all possible generation options')
     .options({
         help: {
             alias: 'h',
@@ -34,21 +37,14 @@ const argv: any = yargs
             alias: 'v',
             describe: 'Show version number'
         },
-        generate: {
-            alias: 'g',
-            describe: 'Generate code or a project'
-        },
-        type: {
-            alias: 't',
-            describe: 'Describe what type of project or code file to generate'
-        },
-        projectName: {
-            alias: 'name',
+        name: {
+            alias: 'n',
             describe: 'Name of project/code file'
         },
         path: {
             alias: 'p',
-            describe: 'Path to generate the files'
+            describe: 'Path to generate the files',
+            default: '.'
         },
         npmInit: {
             alias: 'ni',
@@ -59,8 +55,6 @@ const argv: any = yargs
             describe: 'Perform a git init on project'
         }
     }).argv;
-
-console.log(argv._);
 
 /** Parse Command Line Arguments to determine how to run the generation */
 if (argv._.length !== 0 && !argv._.includes('start')) {

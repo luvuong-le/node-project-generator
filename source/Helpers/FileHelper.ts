@@ -17,6 +17,7 @@ import chalk from 'chalk';
 
 export default abstract class FileHelper extends BaseFileHelper {
     /**
+     * Generate the file using the file details provided by the user
      * @param  {CodeFileDetails} fileDetails
      * @param  {PromptResult} promptResult
      * @returns {boolean}
@@ -72,6 +73,7 @@ export default abstract class FileHelper extends BaseFileHelper {
     }
 
     /**
+     * Generate project with file system
      * @param  {PromptResult} promptResult
      * @param  {ProjectFileDetails} projectDetails
      * @returns {boolean}
@@ -170,6 +172,7 @@ export default abstract class FileHelper extends BaseFileHelper {
     }
 
     /**
+     * Get File Details based on prompt from user
      * @param  {PromptResult} promptResult
      * @param  {Options} generatorType
      * @returns {CodeFileDetails}
@@ -213,6 +216,7 @@ export default abstract class FileHelper extends BaseFileHelper {
     }
 
     /**
+     * Get project details and returns a type of ProjectFileDetails
      * @param  {PromptResult} promptResult
      * @param  {Options} generatorType
      * @returns {ProjectFileDetails}
@@ -251,6 +255,7 @@ export default abstract class FileHelper extends BaseFileHelper {
     }
 
     /**
+     * Replaces a string or strings in a file
      * @param  {string} text
      * @param  {RegExp} regex
      * @param  {string} data
@@ -279,6 +284,7 @@ export default abstract class FileHelper extends BaseFileHelper {
     }
 
     /**
+     * Get the filename of the file
      * @param  {string} generatorType
      * @param  {string} fileType
      * @returns {string}
@@ -307,7 +313,7 @@ export default abstract class FileHelper extends BaseFileHelper {
             });
         });
 
-        // Return default as JS file
+        // Return default as JS filetype
         return `${fileType}.js`;
     }
 }

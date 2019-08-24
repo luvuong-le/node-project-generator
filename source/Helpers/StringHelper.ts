@@ -2,6 +2,7 @@ import lodash from 'lodash';
 
 export default abstract class StringHelper {
     /**
+     * Converts a string into a camelcase format with the first letter capitalized
      * @param  {string} text
      * @returns {string}
      */
