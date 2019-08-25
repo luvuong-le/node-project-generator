@@ -84,6 +84,14 @@ generate -h
 | --npmInit, --ni | Specify to run project generation with npm install **[Optional]** |
 | --gitInit, --ginit | Specify to run project generation with git init **[Optional]**|
 
+**Notes:**
+
+- Custom template path must have the correct structure based on the Enums. An example of this is below:
+    - templateFolderName
+        - code
+            - Router.js
+        - project
+            - express
 
 ## Example Commands
 
