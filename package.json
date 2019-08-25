@@ -1,6 +1,6 @@
 {
     "name": "@luvuong-le/node-project-generator",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Project Generator created for convenient use",
     "main": "index.js",
     "bin": {
