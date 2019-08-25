@@ -46,6 +46,10 @@ const argv: any = yargs
             describe: 'Path to generate the files',
             default: '.'
         },
+        templatePath: {
+            alias: 'tp',
+            describe: 'Custom Template Folder Path'
+        },
         npmInit: {
             alias: 'ni',
             describe: 'Perform a npm install in the current directory'
@@ -64,6 +68,7 @@ if (argv._.length !== 0 && !argv._.includes('start')) {
         specifiedToGenerate: argv.type,
         name: argv.name,
         path: argv.path,
+        templatePath: argv.templatePath,
         gitInit: argv.gitInit,
         npmInit: argv.npmInit
     });

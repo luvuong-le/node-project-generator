@@ -30,9 +30,7 @@ export default abstract class FileHelper extends BaseFileHelper {
             .copyFile(fileDetails.pathToFile, fileDetails.newFileLocation)
             .then(async () => {
                 LogHelper.write(
-                    `\n[Success] Copied ${fileDetails.fileName} to ${
-                        fileDetails.newFileLocation
-                    }`,
+                    `\n[Success] Copied ${fileDetails.fileName} to ${fileDetails.newFileLocation}`,
                     chalk.green
                 );
 
@@ -184,12 +182,13 @@ export default abstract class FileHelper extends BaseFileHelper {
         const fileType: string = promptResult.option;
         const fileName: string = FileHelper.getFileName(
             generatorType,
-            fileType
+            fileType,
+            promptResult.customTemplatePath || undefined
         );
         const currentDirectory: string = process.cwd();
         const pathToFile: string = path.resolve(
             __dirname,
-            '../../templates',
+            promptResult.customTemplatePath || '../../templates',
             generatorType.toLowerCase(),
             fileName
         );
@@ -241,7 +240,7 @@ export default abstract class FileHelper extends BaseFileHelper {
 
         const directoryToCopy: string = path.resolve(
             __dirname,
-            '../../templates',
+            promptResult.customTemplatePath || '../../templates',
             generatorType.toLowerCase(),
             promptResult.option.toLowerCase()
         );
@@ -287,17 +286,20 @@ export default abstract class FileHelper extends BaseFileHelper {
      * Get the filename of the file
      * @param  {string} generatorType
      * @param  {string} fileType
+     * @param  {string} customTemplatePath
+     * @param  {string} folderPath [Optional]
      * @returns {string}
      */
     public static getFileName(
         generatorType: string,
         fileType: string,
+        customTemplatePath: string | undefined,
         folderPath?: string
     ): string {
         const folder: string = !folderPath
             ? path.resolve(
                   __dirname,
-                  '../../templates',
+                  customTemplatePath || '../../templates',
                   generatorType.toLowerCase()
               )
             : folderPath;

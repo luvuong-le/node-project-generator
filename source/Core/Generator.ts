@@ -126,6 +126,8 @@ export default class Generator implements IGenerator {
                             generate: true,
                             projectName: _arguments.name || '',
                             projectGeneratePath: _arguments.path || '',
+                            customTemplatePath:
+                                _arguments.templatePath || undefined,
                             gitInit: _arguments.gitInit || false,
                             npmInstall: _arguments.npmInit || false
                         },
@@ -142,7 +144,9 @@ export default class Generator implements IGenerator {
                             option: _arguments.specifiedToGenerate,
                             generate: true,
                             fileName: _arguments.name || '',
-                            codeGeneratePath: _arguments.path || ''
+                            codeGeneratePath: _arguments.path || '',
+                            customTemplatePath:
+                                _arguments.templatePath || undefined
                         },
                         Options.Code
                     );

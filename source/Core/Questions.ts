@@ -42,7 +42,14 @@ export const ProjectQuestions: Question[] = [
     {
         name: 'projectGeneratePath',
         type: 'input',
-        message: 'Enter a folder or path to generate'
+        message:
+            'Enter a folder or path to generate [Leave blank for root directory]'
+    },
+    {
+        name: 'customTemplatePath',
+        type: 'input',
+        message:
+            'Enter a custom path to your templates folder [Leave blank for default in root folder]'
     },
     {
         name: 'gitInit',
@@ -83,7 +90,14 @@ export const CodeQuestions: Question[] = [
     {
         name: 'codeGeneratePath',
         type: 'input',
-        message: 'Enter a folder or path to generate'
+        message:
+            'Enter a folder or path to generate [Leave blank for root directory]'
+    },
+    {
+        name: 'customTemplatePath',
+        type: 'input',
+        message:
+            'Enter a custom path to your templates folder [Leave blank for default in root folder]'
     },
     {
         name: 'generate',

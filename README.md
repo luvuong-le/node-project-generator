@@ -80,6 +80,7 @@ generate -h
 | --version, -v | Display version number |
 | --name, -n | Specify name of generated file or project **[Optional]** |
 | --path, -p | Specify path of file or project **[Optional]** |
+| --templatePath, --tp | Specify path of custom template folder **[Optional]** |
 | --npmInit, --ni | Specify to run project generation with npm install **[Optional]** |
 | --gitInit, --ginit | Specify to run project generation with git init **[Optional]**|
 
@@ -90,6 +91,7 @@ generate -h
 gen -h
 generate new project express --name ExpressProject -p express/test --ni --ginit
 generate new code controller --name TestController -p ./test/
+generate new code route --name TestController -p ./test/ --tp 'custom path'
 ```
 
 ## Running Tests

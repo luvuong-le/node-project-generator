@@ -11,4 +11,6 @@ export type PromptResult = {
     // Code Configurations
     fileName?: string;
     codeGeneratePath?: string;
+
+    customTemplatePath?: string;
 };
