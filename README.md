@@ -86,10 +86,10 @@ generate -h
 
 **Notes:**
 
-- Custom template path must have the correct structure based on the Enums. An example of this is below:
+- Custom template path must have the correct specific structure based on the Enums. An example of this is below:
     - templateFolderName
         - code
-            - Router.js
+            - Router.js (One level only)
         - project
             - express
 
@@ -100,6 +100,8 @@ gen -h
 generate new project express --name ExpressProject -p express/test --ni --ginit
 generate new code controller --name TestController -p ./test/
 generate new code route --name TestController -p ./test/ --tp 'custom path'
+gen list code
+gen list all
 ```
 
 ## Running Tests

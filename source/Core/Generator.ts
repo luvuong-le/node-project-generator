@@ -67,15 +67,14 @@ export default class Generator implements IGenerator {
      */
     generateList(generatorType: string): void {
         if (generatorType.toLowerCase() === Options.Project.toLowerCase()) {
-            LogHelper.write('Listing all projects: ', chalk.blue);
-            for (let option in Projects) {
-                LogHelper.write(`    -${_.capitalize(option)}`, chalk.blue);
-            }
+            LogHelper.listOptions(Options.Project, Projects, chalk.blue);
+        } else if (
+            generatorType.toLowerCase() === Options.Project.toLowerCase()
+        ) {
+            LogHelper.listOptions(Options.Code, Code, chalk.blue);
         } else {
-            LogHelper.write('Listing all code files: ', chalk.blue);
-            for (let option in Code) {
-                LogHelper.write(`    -${_.capitalize(option)}`, chalk.blue);
-            }
+            LogHelper.listOptions(Options.Code, Code, chalk.blue);
+            LogHelper.listOptions(Options.Project, Projects, chalk.blue);
         }
     }
 
