@@ -41,7 +41,7 @@
         "lodash": "^4.17.15",
         "module-alias": "^2.2.1",
         "ora": "^3.4.0",
-        "shelljs": "^0.8.3",
+        "shelljs": "^0.8.5",
         "yargs": "^13.2.4"
     },
     "_moduleAliases": {
